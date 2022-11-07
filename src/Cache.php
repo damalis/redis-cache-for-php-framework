@@ -90,8 +90,7 @@ class Cache
        *
        * @param mixed $cacheObject
        * @param serialize $cacheString
-       * @param mixed $key cache index
-       * @return string
+       * {@inheritdoc}
        */
     public function set($cacheObject, $key)
     {
@@ -100,7 +99,7 @@ class Cache
         if (array_key_exists('timeout', $this->settings)){
             $this->expire($key, $this->settings['timeout']);
         }
-        $this->response = $this->response->withHeader("X-Powered-By", "No-Cache");
+        $this->response = $this->response->withHeader("X-Cache-Status", "No-Cache");
 
         return $this->response;
     }
@@ -111,10 +110,7 @@ class Cache
        *
        * @param unserialize $cacheObject
        * @param serialize $cacheString
-       * @param mixed $key cache index
-       * @param mixed $header HTML headers
-       * @param mixed $value HTML header value
-       * @return string
+       * {@inheritdoc}
        */
     public function get($key)
     {
@@ -125,18 +121,14 @@ class Cache
         }
 
         $ttl = $this->client->ttl($key);
-        $this->response = $this->response->withHeader("X-Powered-By", "Cache");
+        $this->response = $this->response->withHeader("X-Cache-Status", "Cache");
         $this->response = $this->response->withHeader("Cache-TTL", $ttl);
 
         return $this->response;
     }
 
     /**
-       *
-       * check if exists cached object
-       *
-       * @param mixed $key cache index
-       * @return integer
+       * {@inheritdoc}
        */
     public function exists($key)
     {
@@ -144,11 +136,7 @@ class Cache
     }
 	
     /**
-       *
-       * to expire cached object
-       *
-       * @param mixed $key cache index
-       * @return integer
+       * {@inheritdoc}
        */
     public function expire($key)
     {
@@ -156,11 +144,7 @@ class Cache
     }
 
     /**
-       *
-       * to remove cached object
-       *
-       * @param mixed $key      cache   index
-       * @return integer
+       * {@inheritdoc}
        */
     public function del($key)
     {
@@ -168,18 +152,16 @@ class Cache
     }
 
     /**
-       *
-       * to check if work redis server
-       *
+       * {@inheritdoc}
        */
     public function check()
     {
         if ( $this->client->ping() ) echo "PONG";
     }
 	
-	/**
-     * {@inheritdoc}
-     */
+    /**
+       * {@inheritdoc}
+       */
     protected function flush()
     {
         return $this->client->flushdb();
