@@ -14,12 +14,17 @@ Example:
 
 ```
 use Slim\Factory\AppFactory;
+use Slim\Factory\ServerRequestCreatorFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
 //...
+
+// Create Request object from globals
+$serverRequestCreator = ServerRequestCreatorFactory::create();
+$request = $serverRequestCreator->createServerRequestFromGlobals();
 
 $client = new \Predis\Client('tcp://localhost:6379', [
 	'prefix' => $request->getUri()->getHost()
