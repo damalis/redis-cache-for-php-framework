@@ -1,0 +1,26 @@
+{
+	"name": "damalis/redis-cache-for-slim-framework",
+	"type": "library",
+	"description": "Redis cache for slim framework",
+	"keywords": ["slim", "framework", "redis", "cache"],
+	"homepage": "https://github.com/damalis/redis-cache-for-slim-framework",
+	"license": "Apache-2.0",
+	"minimum-stability": "dev",
+	"authors": [
+		{
+			"name": "damalis",
+			"email": "erdal80@hotmail.com"
+			"homepage": "https://github.com/damalis"
+		}
+	],
+	"require": {
+		"php": "^7.4 || ^8.0",
+		"slim/slim": ">=4.0",
+		"predis/predis": ">=2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"damalis\\RedisCache\\": "src/"
+		}
+	}
+}
