@@ -62,7 +62,7 @@ class Cache
 
             $cacheObject = [
                 "body" => (string) $this->response->getBody(),
-                "headers"=> $this->response->getHeaders()
+                "headers" => $this->response->getHeaders()
             ];
             $this->set($cacheObject, $key);
 			
