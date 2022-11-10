@@ -4,7 +4,7 @@
    * Redis Cache
    *
    *
-   * @package    Redis Cache for framework
+   * @package    Redis Cache for slim framework
    * @author     Erdal ALTIN <erdal80@hotmail.com>
    * Copyright 2022
 
@@ -43,42 +43,35 @@ class Cache
      *
      * @return Response
      */
-    public function __invoke(Request $request, RequestHandler $handler): Response
+    public function __invoke( Request $request, RequestHandler $handler ): Response
     {
         $this->response = $handler->handle($request);
 
         //Only Cache GET Requests
-        if($request->getMethod() !== "GET")	return $this->response;
+        if( $request->getMethod() !== "GET" )	return $this->response;
 
         //Configure Cache Key
         $key = $request->getUri()->getPath();
-        if (!empty($request->getUri()->getQuery())){
-            $key .= '?' . $request->getUri()->getQuery();
-        }
+        if ( !empty($request->getUri()->getQuery()) )	$key .= '?' . $request->getUri()->getQuery();
 
         //If cache exists return response
-        if ($this->exists($key)) {
-
-            $this->get($key);
-            $body = $this->response->getBody();
-
-            return $this->response;
-        }
+        if ( $this->exists($key) )	return $this->response = $this->get($key);
 
         //As long as response is good, save to cache
-        if ($this->response->getStatusCode() == 200) {
+        if ( $this->response->getStatusCode() == 200 ) {
 
             $cacheObject = [
                 "body" => (string) $this->response->getBody(),
                 "headers"=> $this->response->getHeaders()
             ];
             $this->set($cacheObject, $key);
+			
         }
 
         return $this->response;
     }
 
-    public function __construct(ClientInterface $client, array $settings = [])
+    public function __construct( ClientInterface $client, array $settings = [] )
     {
         $this->client = $client;
         $this->settings = $settings;
@@ -92,11 +85,11 @@ class Cache
        * @param serialize $cacheString
        * {@inheritdoc}
        */
-    public function set($cacheObject, $key)
+    public function set( $cacheObject, $key )
     {
         $cacheString = serialize($cacheObject);
         $this->client->set($key, $cacheString);
-        if (array_key_exists('timeout', $this->settings)){
+        if ( array_key_exists('timeout', $this->settings) ){
             $this->expire($key, $this->settings['timeout']);
         }
         $this->response = $this->response->withHeader("X-Cache-Status", "No-Cache");
@@ -112,11 +105,11 @@ class Cache
        * @param serialize $cacheString
        * {@inheritdoc}
        */
-    public function get($key)
+    public function get( $key )
     {
         $cacheString  = $this->client->get($key);
         $cacheObject = unserialize($cacheString);
-        foreach($cacheObject['headers'] as $header => $value){
+        foreach( $cacheObject['headers'] as $header => $value ){
             $this->response = $this->response->withHeader($header, $value);
         }
 
@@ -130,7 +123,7 @@ class Cache
     /**
        * {@inheritdoc}
        */
-    public function exists($key)
+    public function exists( $key )
     {
         return $this->client->exists($key);
     }
@@ -138,7 +131,7 @@ class Cache
     /**
        * {@inheritdoc}
        */
-    public function expire($key)
+    public function expire( $key )
     {
         return $this->client->expire($key, $this->settings['timeout']);
     }
@@ -146,7 +139,7 @@ class Cache
     /**
        * {@inheritdoc}
        */
-    public function del($key)
+    public function del( $key )
     {
         return $this->client->del($key);
     }
