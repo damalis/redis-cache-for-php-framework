@@ -1,9 +1,9 @@
 {
-	"name": "damalis/redis-cache-for-slim-framework",
+	"name": "damalis/redis-cache-for-php-framework",
 	"type": "library",
-	"description": "Redis cache for slim framework",
-	"keywords": ["slim", "framework", "redis", "cache"],
-	"homepage": "https://github.com/damalis/redis-cache-for-slim-framework",
+	"description": "Redis cache for php framework",
+	"keywords": ["php", "framework", "redis", "cache"],
+	"homepage": "https://github.com/damalis/redis-cache-for-php-framework",
 	"license": "Apache-2.0",
 	"minimum-stability": "dev",
 	"authors": [
@@ -15,7 +15,6 @@
 	],
 	"require": {
 		"php": "^7.4 || ^8.0",
-		"slim/slim": ">=4.0",
 		"predis/predis": ">=2.0"
 	},
 	"autoload": {
