@@ -4,7 +4,7 @@
    * Redis Cache
    *
    *
-   * @package    Redis Cache for slim framework
+   * @package    Redis Cache for php framework
    * @author     Erdal ALTIN <erdal80@hotmail.com>
    * Copyright 2022
 
