@@ -1,16 +1,18 @@
 # RedisCache
 
-Redis cache for slim framework.
+Redis cache for php framework.
 
 ## Installation
 
-composer require damalis/redis-cache-for-slim-framework
+composer require damalis/redis-cache-for-php-framework
 
 ## Usage
 
 Cache every successful HTTP response for 24 hours in the local Redis server.
 
 Example:
+
+slim framework;
 
 ```
 use Slim\Factory\AppFactory;
